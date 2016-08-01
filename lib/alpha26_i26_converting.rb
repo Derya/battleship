@@ -1,4 +1,4 @@
-# haha magic
+
 class String
   Alpha26 = ("a".."z").to_a
 

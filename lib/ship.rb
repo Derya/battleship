@@ -1,8 +1,8 @@
 
 
 class Ship
-
-  attr_accessor :length, :name, :x, :y, :orientation
+  attr_reader :length, :name
+  attr_accessor :x, :y, :orientation
 
   def initialize(length, name, orientation=nil, x=nil, y=nil)
     @length = length

@@ -156,5 +156,24 @@ RSpec.describe Grid do
 
   end
 
+  describe "#dead?" do 
+
+    it "returns true for a fully splashed ship" do
+      @grids.each do |grid|
+        @ships.each do |ship|
+          ship.coordinates_occupied.each do |coordinate|
+            @grid.splash(coordinate)
+          end
+          expect(ship.dead?.to eq(true))
+        end
+      end
+    end
+
+    it "returns false for a living ship" do
+
+    end
+
+  end
+
 end
 

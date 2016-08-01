@@ -17,14 +17,14 @@ class BashInterface < BattleshipInterface
   end
 
   def show_status(player_grid, opponent_grid)
-    # TODO: after? refractoring these methods, also change grids to display side by side
+    # TODO: print grids side by side
     show_grid(opponent_grid, false)
     print "\n"
     show_grid(player_grid, true)
   end
 
   def print_ship(ship)
-    #TODO: implement use of max_digits = (grid.size_y/10)+1
+    #TODO: use of max_digits = (grid.size_y/10)+1 here
     print "\n  " + ("   " * ship.length).colorize(:background => :light_black) + "\n"
   end
 
@@ -36,7 +36,9 @@ class BashInterface < BattleshipInterface
     # add header
     out = get_header(max_digits, max_letters, grid.size_x, is_ally) + "\n"
     # add all our rows
-    grid.size_y.times { |row_num| out << get_row(max_digits, max_letters, row_num, grid, is_ally) + "\n" }
+    grid.size_y.times do |row_num|
+      out << get_row(max_digits, max_letters, row_num, grid, is_ally) + "\n"
+    end
     # add another header
     out << get_header(max_digits, max_letters, grid.size_x, is_ally) + "\n"
 

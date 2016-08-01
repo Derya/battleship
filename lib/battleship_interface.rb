@@ -1,5 +1,8 @@
 require_relative 'alpha26_i26_converting'
 
+class InvalidCoordError < Exception
+end
+
 class BattleshipInterface
 
 

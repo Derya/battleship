@@ -3,14 +3,23 @@ require_relative 'grid'
 class BattleshipGame
 
   #attr_reader :player_grid, :opp_grid
+  SHIPS = [
+    Ship.new(5, "Aircraft Carrier"),
+    Ship.new(4, "Battleship"),
+    Ship.new(3, "Destroyer"),
+    Ship.new(3, "Submarine"),
+    Ship.new(2, "Patrol Boat")
+  ]
 
-  def initialize(presenter, opponent, ships)
+  def initialize(presenter, opponent)
     @presenter = presenter
     @opponent = opponent
+
     @player_grid = Grid.new(8,8)
     @opp_grid = Grid.new(8,8)
     @winner = :none
     @opponent_ships = []
+    ships = SHIPS
     ships.each { |ship| @opponent_ships << ship.clone}
     @player_ships = ships
   end
@@ -27,8 +36,8 @@ class BattleshipGame
 
   def setup
     # get presenter to have player set up each ship
-    #@presenter.set_ships(@player_grid, @player_ships)
-    @opponent.set_ships(@player_grid, @player_ships)
+    @presenter.set_ships(@player_grid, @player_ships)
+    #@opponent.set_ships(@player_grid, @player_ships)
     # get AI to place their ships
     @opponent.set_ships(@opp_grid, @opponent_ships)
   end

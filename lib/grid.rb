@@ -5,6 +5,8 @@ class Grid
 
   attr_reader :size_x, :size_y, :ships, :tiles
 
+  OUT_COORD = :out_of_coords
+
   def initialize(size_x, size_y)
     raise ArgumentError.new("dimensions must be positive") unless (size_x > 0) && (size_y > 0)
     @size_x = size_x
@@ -25,14 +27,18 @@ class Grid
   # tries to add a ship, returns :added, :out_of_coords, :intersects_ship
   def add_ship(ship)
     status = self.ship_addable?(ship)
-    return status unless status == :addable
-    ship.coordinates_occupied.each { |coordinate| self.tiles[coordinate].ship = ship }
-    self.ships << ship
-    :added
+    if status == :addable
+      ship.coordinates_occupied.each { |coordinate| self.tiles[coordinate].ship = ship }
+      self.ships << ship
+      :added
+    else
+      status 
+    end
   end
 
   # sees if ship can be added, returns :addable, :out_of_coords, :intersects_ship
   def ship_addable?(ship)
+
     # first, check if ship origin is within grid
     return :out_of_coords unless ship.x >= 0 && ship.y >= 0
     return :out_of_coords unless ship.x < self.size_x && ship.y < self.size_y
@@ -59,35 +65,25 @@ class Grid
     return :out_of_coords unless x >= 0 && y >= 0
     return :splashed if self.tiles[[x,y]].splashed
     self.tiles[[x,y]].splashed = true
-    self.tiles[[x,y]].ship
+    if self.tiles[[x,y]].ship
+      ship.hit_at(x,y)
   end
 
-  # TODO: this needs spec
   def all_ships_dead?
     self.ships.each { |ship| return false unless self.dead?(ship) }
-      true
+    true
   end
 
-  # TODO: this needs spec
   def dead?(ship)
+    raise ArgumentError.new("must be called with a ship") unless ship.is_a?(Ship)
     ship.coordinates_occupied.each { |coord| return false unless self.tiles[coord].splashed }
     true
   end
 
-  # def remove_ship(*args)
-  #   if (args.length == 1) && (args[0].is_a? Ship)
-        # DFGHJKDFGHJK
-  #   elsif (args.length == 2) && (args[0].is_a? Integer) && (args[1].is_a? Integer)
-      
-  #   else
-  #     raise ArgumentError.new("must call with 1 argument (ship) or 2 arguments (integer, integer)")
-  #   end
-  # end
-
-  # # moves ship at x_old, y_old to x, y. need not be called with uppermost leftmost coordinate of ship?
-  # # should not be called when game is underway?
-  # def move_ship(x_old, y_old, x, y)
-  #   #TODO: this
-  # end
+  def living_ships
+    living_ships = []
+    self.ships.each { |ship| living_ships << ship unless self.dead?(ship) }
+    living_ships
+  end
 
 end
