@@ -39,7 +39,7 @@ class BattleshipBot
   end
 
   def get_random_shot(grid)
-    [rand(grid.max_x, rand(grid.max_y)]
+    [rand(grid.size_x), rand(grid.size_y)]
   end
 
   def get_superbrain_shot(grid)

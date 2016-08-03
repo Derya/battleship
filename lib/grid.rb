@@ -65,8 +65,7 @@ class Grid
     return :out_of_coords unless x >= 0 && y >= 0
     return :splashed if self.tiles[[x,y]].splashed
     self.tiles[[x,y]].splashed = true
-    if self.tiles[[x,y]].ship
-      ship.hit_at(x,y)
+    self.tiles[[x,y]].ship
   end
 
   def all_ships_dead?
