@@ -4,4 +4,4 @@ However, it was really fun, and I've implemented a fully featured battleship gam
 
 #### Setup
 1. you need the colorize gem: `gem install colorize
-2. run `ruby main.rb`
+2. run `ruby lib/main.rb`
